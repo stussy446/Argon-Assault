@@ -22,9 +22,6 @@ public class PlayerController : MonoBehaviour
     float yThrow;
 
 
-
-
-
     void OnEnable()
     {
         movement.Enable();
@@ -45,6 +42,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
     void ProcessRotation()
     {
         float pitchDueToPosition = transform.localPosition.y * positionPitchFactor;
@@ -58,6 +56,7 @@ public class PlayerController : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(pitch, yaw, roll);
     }
+
 
     void ProcessTranslation()
     {
@@ -88,4 +87,5 @@ public class PlayerController : MonoBehaviour
            clampedYPos,
            transform.localPosition.z);
     }
+
 }

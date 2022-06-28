@@ -6,11 +6,15 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
-    [SerializeField] InputAction movement; // handles wasd for movement
+    [SerializeField] InputAction movement; 
+    [SerializeField] InputAction fire; 
+
     [SerializeField] float controlSpeed = 10f; // tunes how fast ship moves
     [SerializeField] float xRange = 5f;
     [SerializeField] float topYRange = 5f;
     [SerializeField] float bottomYRange = 5f;
+
+    [SerializeField] GameObject[] lasers;
 
     [SerializeField] float positionPitchFactor = -2f;
     [SerializeField] float positionYawFactor = 2.5f;
@@ -25,12 +29,15 @@ public class PlayerController : MonoBehaviour
     void OnEnable()
     {
         movement.Enable();
+        fire.Enable();
     }
 
 
     void OnDisable()
     {
         movement.Disable();
+        fire.Disable();
+
     }
 
 
@@ -39,6 +46,7 @@ public class PlayerController : MonoBehaviour
     {
         ProcessTranslation();
         ProcessRotation();
+        ProcessFiring();
 
     }
 
@@ -87,5 +95,30 @@ public class PlayerController : MonoBehaviour
            clampedYPos,
            transform.localPosition.z);
     }
+
+
+    void ProcessFiring()
+    {
+        if (fire.ReadValue<float>() > 0.5f)
+        {
+            SetLasersActive(true);
+        }
+        else
+        {
+            SetLasersActive(false);
+
+        }
+    }
+
+    void SetLasersActive(bool onOrOff)
+    {
+        for (int i = 0; i < lasers.Length; i++)
+        {
+            var pSys = lasers[i].GetComponent<ParticleSystem>().emission;
+            pSys.enabled = onOrOff;
+        }
+    }
+
+ 
 
 }
